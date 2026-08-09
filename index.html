@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kim Yuna — Portfolio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="cursor-tooltip" class="cursor-tooltip" aria-hidden="true">
+    <div class="tooltip-card">
+      <span class="tooltip-date"></span>
+      <span class="tooltip-desc"></span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">KIM YUNA</a>
+      <nav class="main-nav">
+        <a href="work.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>영상 &amp; 모션그래픽 크리에이터</h1>
+      <div class="hero-actions">
+        <a href="work.html" class="btn btn-primary">작업 보기</a>
+        <a href="contact.html" class="btn btn-secondary">협업 문의</a>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <div class="section-head">
+        <h2>Selected Work</h2>
+        <a href="work.html" class="section-link">전체 작업 보기 →</a>
+      </div>
+      <div class="work-grid" id="featuredGrid"></div>
+    </section>
+
+    <section class="teaser-section">
+      <div class="teaser-card">
+        <div class="teaser-avatar" aria-hidden="true">YN</div>
+        <div class="teaser-body">
+          <h2>About</h2>
+          <p>6년차 모션그래픽 디자이너 김유나입니다. 브랜드의 메시지를 시각적 리듬으로 바꾸는 작업을 좋아하며,
+             현재는 프리랜스로 광고 캠페인 모션과 UI 애니메이션 작업을 진행하고 있습니다.</p>
+          <a href="about.html" class="section-link">더 알아보기 →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <h2>새로운 프로젝트를 함께 만들어요</h2>
+      <p>채용 검토 중이시거나 협업을 제안하고 싶으시다면 언제든 편하게 연락 주세요.</p>
+      <a href="contact.html" class="btn btn-primary">Contact 페이지로 이동</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Kim Yuna. All rights reserved.</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="tooltip.js"></script>
+  <script src="home.js"></script>
+</body>
+</html>

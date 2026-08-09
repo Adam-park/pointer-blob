@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work — Kim Yuna</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="cursor-tooltip" class="cursor-tooltip" aria-hidden="true">
+    <div class="tooltip-card">
+      <span class="tooltip-date"></span>
+      <span class="tooltip-desc"></span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">KIM YUNA</a>
+      <nav class="main-nav">
+        <a href="work.html" class="is-active" aria-current="page">Work</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-intro">
+      <h1>Work</h1>
+    </section>
+
+    <section class="work-section">
+      <div class="section-head">
+        <div class="filters" id="filters">
+          <button class="filter-btn is-active" data-filter="all">전체</button>
+          <button class="filter-btn" data-filter="motion">모션그래픽</button>
+          <button class="filter-btn" data-filter="branding">브랜딩</button>
+          <button class="filter-btn" data-filter="illustration">일러스트</button>
+          <button class="filter-btn" data-filter="uiux">UI/UX</button>
+          <button class="filter-btn" data-filter="video">영상편집</button>
+        </div>
+      </div>
+
+      <div class="work-grid" id="workGrid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Kim Yuna. All rights reserved.</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="tooltip.js"></script>
+  <script src="work.js"></script>
+</body>
+</html>
