@@ -825,6 +825,9 @@ body.has-tooltip .static-caption {
 /* 5 · 캐릭터 굿즈 일러스트 — 캐릭터가 통통 튀는 젤리 같은 스쿼시&스트레치 */
 .tooltip-card.fx-character-jelly {
   background: linear-gradient(135deg, #f472b6, #fb923c);
+  /* 기본값(중앙 기준)으로 늘였다 줄이면 박스가 원래 자리를 벗어나 보이므로,
+     아래쪽 가장자리를 고정축으로 삼아 눌렸다 튀는 지점이 항상 같은 자리에 있게 한다 */
+  transform-origin: center bottom;
   animation: tt-jelly 0.55s cubic-bezier(.34, 1.8, .64, 1);
 }
 
@@ -985,6 +988,7 @@ body.has-tooltip .static-caption {
 .tooltip-card.fx-watercolor-bleed {
   background: linear-gradient(135deg, #fbcfe8, #bae6fd, #bbf7d0);
   color: #1f2937;
+  transform-origin: center bottom;
   animation: tt-watercolor-bleed 0.45s ease-out;
 }
 
