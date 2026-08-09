@@ -15,6 +15,7 @@ const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 const TOOLTIP_OFFSET_X = 18;
 const TOOLTIP_OFFSET_Y = 18;
 const TAP_DISPLAY_MS = 1800;
+const TAP_OFFSET = 12;
 
 let lastEffectClass = null;
 
@@ -42,10 +43,10 @@ function positionTooltipNear(targetRect) {
   const rect = tooltipCard.getBoundingClientRect();
 
   let left = targetRect.left + targetRect.width / 2 - rect.width / 2;
-  let top = targetRect.top - rect.height - 12;
+  let top = targetRect.top - rect.height - TAP_OFFSET;
 
   if (top < 8) {
-    top = targetRect.bottom + 12;
+    top = targetRect.bottom + TAP_OFFSET;
   }
 
   left = Math.max(8, Math.min(left, vw - rect.width - 8));
@@ -119,8 +120,34 @@ function attachHoverTooltip(container) {
   });
 }
 
+// 안내판이 뜰 자리를 미리 확보하기 위해, 안내판 중 키가 제일 큰 효과들의 실제 렌더링 높이를 재서
+// "필터 줄 ↔ 그리드", "그리드 행 사이" 간격을 안내판 높이 + 위아래 0.2mm만 남도록 CSS 변수로 넘긴다.
+function measureTapGap() {
+  const originalDate = tooltipDate.textContent;
+  const originalDesc = tooltipDesc.textContent;
+  const originalClass = tooltipCard.className;
+
+  tooltipDate.textContent = "0000.00";
+  tooltipDesc.textContent = "높이 측정용 텍스트";
+
+  let maxHeight = 0;
+  ["onboarding-dots", "ribbon-untie"].forEach((fx) => {
+    tooltipCard.className = `tooltip-card fx-${fx}`;
+    maxHeight = Math.max(maxHeight, tooltipCard.getBoundingClientRect().height);
+  });
+
+  tooltipCard.className = originalClass;
+  tooltipDate.textContent = originalDate;
+  tooltipDesc.textContent = originalDesc;
+
+  const gap = `calc(${Math.ceil(maxHeight)}px + ${TAP_OFFSET}px + 0.4mm)`;
+  document.documentElement.style.setProperty("--tap-tooltip-gap", gap);
+}
+
 // ---- 터치기기: 탭하면 그 카드 위에서 효과가 잠깐 재생되고 자동으로 사라짐 ----
 function attachTapTooltip(container) {
+  measureTapGap();
+
   let hideTimer = null;
 
   container.addEventListener("click", (e) => {

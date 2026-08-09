@@ -525,15 +525,17 @@ a { color: inherit; }
   column-gap: var(--gap);
 }
 
-/* 터치 기기(hover 불가)에서는 탭 툴팁이 카드 위쪽에 뜨므로,
-   필터 바로 아래 첫 줄 / 그리드 행 사이에 툴팁이 들어갈 여유 공간을 넉넉히 둔다 */
+/* 터치 기기(hover 불가)에서는 탭 툴팁이 카드 위쪽에 뜨므로, 필터 바로 아래 첫 줄 / 그리드 행 사이에
+   툴팁이 들어갈 공간을 확보한다. --tap-tooltip-gap은 tooltip.js가 안내판의 실제 렌더링 높이를 재서
+   "안내판 높이 + 위아래 0.2mm"로 계산해 넣어주므로, 안내판이 딱 들어갈 정도로만 벌어진다.
+   (JS가 아직 값을 못 넣은 최초 페인트 시점을 위한 대비용 기본값만 96px로 남겨둔다) */
 @media (hover: none) {
   .section-head {
-    margin-bottom: 96px;
+    margin-bottom: var(--tap-tooltip-gap, 96px);
   }
 
   .work-grid {
-    row-gap: 96px;
+    row-gap: var(--tap-tooltip-gap, 96px);
   }
 }
 
