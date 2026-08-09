@@ -636,13 +636,16 @@ body.has-tooltip .static-caption {
   opacity: 1;
 }
 
+/* width와 padding-top을 모든 효과가 공유하는 고정값으로 못박아서, 어떤 작업을 눌러도
+   안내판 크기가 항상 똑같이 나오게 한다 — 효과별로는 배경·모션만 다르고 "그릇" 크기는 안 바뀐다.
+   padding-top 24px는 가장 위쪽 공간을 많이 쓰는 fx-ribbon-untie 리본을 기준으로 잡은 값. */
 .tooltip-card {
   position: relative;
-  padding: 9px 13px;
+  width: 200px;
+  padding: 24px 13px 9px;
   border-radius: 9px;
   font-size: 12.5px;
   line-height: 1.45;
-  max-width: 220px;
   color: #fff;
   box-shadow: 0 10px 26px -8px rgba(0,0,0,0.5);
   background: var(--tooltip-bg);
@@ -761,7 +764,6 @@ body.has-tooltip .static-caption {
 /* 3 · 제품 소개 인터랙션 — 온보딩 스텝 점 3개가 좌→우로 순서대로 켜진 뒤 키워드 등장 */
 .tooltip-card.fx-onboarding-dots {
   background: linear-gradient(135deg, #2563eb, #0ea5e9);
-  padding-top: 20px;
 }
 
 .tooltip-card.fx-onboarding-dots::before {
@@ -1046,7 +1048,6 @@ body.has-tooltip .static-caption {
 .tooltip-card.fx-ribbon-untie {
   background: linear-gradient(135deg, #f5d0c5, #d4af7a);
   color: #4a3728;
-  padding-top: 20px;
 }
 
 .tooltip-card.fx-ribbon-untie::before,
