@@ -521,7 +521,20 @@ a { color: inherit; }
 .work-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: var(--gap);
+  row-gap: var(--gap);
+  column-gap: var(--gap);
+}
+
+/* 터치 기기(hover 불가)에서는 탭 툴팁이 카드 위쪽에 뜨므로,
+   필터 바로 아래 첫 줄 / 그리드 행 사이에 툴팁이 들어갈 여유 공간을 넉넉히 둔다 */
+@media (hover: none) {
+  .section-head {
+    margin-bottom: 96px;
+  }
+
+  .work-grid {
+    row-gap: 96px;
+  }
 }
 
 .work-item {
@@ -1123,7 +1136,7 @@ body.has-tooltip .static-caption {
   .hero { padding: 56px 18px 40px; }
   .hero-actions { flex-wrap: wrap; }
   .work-section { padding: 16px 18px 64px; }
-  .work-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .work-grid { grid-template-columns: 1fr 1fr; column-gap: 14px; }
   .page-intro { padding: 48px 18px 8px; }
   .about-block, .teaser-section, .cta-section, .contact-grid { padding-left: 18px; padding-right: 18px; }
 }
