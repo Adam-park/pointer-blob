@@ -17,21 +17,33 @@ const TOOLTIP_OFFSET_Y = 18;
 const TAP_DISPLAY_MS = 1800;
 const TAP_OFFSET = 12;
 
+// 안내판 크기는 모든 효과가 공유하는 고정값(style.css)이라 딱 한 번만 재서 캐시해둔다.
+// 매번 그때그때 getBoundingClientRect()로 재면, 하필 효과가 막 시작된 순간 —
+// 즉 scale(0.6, 1.4) 같은 0% 키프레임 상태 — 를 그대로 측정해버려서
+// 그 찌그러진 크기 기준으로 위치가 계산되고, 애니메이션이 끝나 원래 크기로
+// 돌아오면 자리가 어긋나 보이는 문제(특히 캐릭터 일러스트·수채화 효과)가 있었다.
+// 페이지가 막 로드된 시점엔 date/desc가 비어있어 줄 높이가 안 잡히므로,
+// 재기 전에 잠깐 아무 텍스트나 채워 넣는다(화면엔 안 보이는 상태라 문제없음).
+tooltipDate.textContent = "0000.00";
+tooltipDesc.textContent = "높이 측정용";
+const TOOLTIP_RECT = tooltipCard.getBoundingClientRect();
+const TOOLTIP_WIDTH = TOOLTIP_RECT.width;
+const TOOLTIP_HEIGHT = TOOLTIP_RECT.height;
+
 let lastEffectClass = null;
 
 function positionTooltip(x, y) {
   const { innerWidth: vw, innerHeight: vh } = window;
-  const rect = tooltipCard.getBoundingClientRect();
 
   let left = x + TOOLTIP_OFFSET_X;
   let top = y + TOOLTIP_OFFSET_Y;
 
   // 화면 오른쪽/아래 경계를 넘어가면 포인터 반대쪽으로 붙인다
-  if (left + rect.width > vw - 8) {
-    left = x - rect.width - TOOLTIP_OFFSET_X;
+  if (left + TOOLTIP_WIDTH > vw - 8) {
+    left = x - TOOLTIP_WIDTH - TOOLTIP_OFFSET_X;
   }
-  if (top + rect.height > vh - 8) {
-    top = y - rect.height - TOOLTIP_OFFSET_Y;
+  if (top + TOOLTIP_HEIGHT > vh - 8) {
+    top = y - TOOLTIP_HEIGHT - TOOLTIP_OFFSET_Y;
   }
 
   tooltip.style.transform = `translate(${left}px, ${top}px)`;
@@ -40,17 +52,16 @@ function positionTooltip(x, y) {
 // 탭한 카드 위쪽(공간이 없으면 아래쪽)에, 카드 중앙 정렬로 띄운다
 function positionTooltipNear(targetRect) {
   const { innerWidth: vw, innerHeight: vh } = window;
-  const rect = tooltipCard.getBoundingClientRect();
 
-  let left = targetRect.left + targetRect.width / 2 - rect.width / 2;
-  let top = targetRect.top - rect.height - TAP_OFFSET;
+  let left = targetRect.left + targetRect.width / 2 - TOOLTIP_WIDTH / 2;
+  let top = targetRect.top - TOOLTIP_HEIGHT - TAP_OFFSET;
 
   if (top < 8) {
     top = targetRect.bottom + TAP_OFFSET;
   }
 
-  left = Math.max(8, Math.min(left, vw - rect.width - 8));
-  top = Math.max(8, Math.min(top, vh - rect.height - 8));
+  left = Math.max(8, Math.min(left, vw - TOOLTIP_WIDTH - 8));
+  top = Math.max(8, Math.min(top, vh - TOOLTIP_HEIGHT - 8));
 
   tooltip.style.transform = `translate(${left}px, ${top}px)`;
 }
@@ -120,28 +131,15 @@ function attachHoverTooltip(container) {
   });
 }
 
-// 안내판이 뜰 자리를 미리 확보하기 위해 실제 렌더링 높이를 재서, "필터 줄 ↔ 그리드",
-// "그리드 행 사이" 간격을 안내판 높이 + 위아래 0.2mm만 남도록 CSS 변수로 넘긴다.
-// (모든 효과가 width·padding-top을 공유해 크기가 동일하므로 한 번만 재면 된다 — style.css 참고)
-function measureTapGap() {
-  const originalDate = tooltipDate.textContent;
-  const originalDesc = tooltipDesc.textContent;
-
-  tooltipDate.textContent = "0000.00";
-  tooltipDesc.textContent = "높이 측정용 텍스트";
-
-  const height = tooltipCard.getBoundingClientRect().height;
-
-  tooltipDate.textContent = originalDate;
-  tooltipDesc.textContent = originalDesc;
-
-  const gap = `calc(${Math.ceil(height)}px + ${TAP_OFFSET}px + 0.4mm)`;
+// "필터 줄 ↔ 그리드", "그리드 행 사이" 간격을 안내판 높이 + 위아래 0.2mm만 남도록 CSS 변수로 넘긴다.
+function setTapTooltipGap() {
+  const gap = `calc(${Math.ceil(TOOLTIP_HEIGHT)}px + ${TAP_OFFSET}px + 0.4mm)`;
   document.documentElement.style.setProperty("--tap-tooltip-gap", gap);
 }
 
 // ---- 터치기기: 탭하면 그 카드 위에서 효과가 잠깐 재생되고 자동으로 사라짐 ----
 function attachTapTooltip(container) {
-  measureTapGap();
+  setTapTooltipGap();
 
   let hideTimer = null;
 
