@@ -55,7 +55,9 @@ function createWorkCard(w) {
   card.tabIndex = 0;
 
   card.innerHTML = `
-    <div class="thumb" data-cat="${w.cat}" data-size="${sizeFor(w)}" data-color="${colorFor(w)}"></div>
+    <div class="thumb-frame" data-size="${sizeFor(w)}">
+      <div class="thumb" data-cat="${w.cat}" data-color="${colorFor(w)}"></div>
+    </div>
     <p class="static-caption">${w.title}</p>
   `;
   return card;

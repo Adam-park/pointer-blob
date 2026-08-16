@@ -555,37 +555,56 @@ a { color: inherit; }
   cursor: pointer;
 }
 
-.thumb {
+/* pesmotionstudio.com 레퍼런스처럼 호버 시 이미지가 확대되는 효과.
+   .thumb-frame이 카드의 비율·테두리를 잡고 overflow:hidden으로 밖으로 삐져나오는 부분을 잘라내면,
+   그 안의 .thumb(실제 이미지가 들어올 자리)만 scale()로 커지면서 "액자 안에서 확대되는" 느낌이 난다. */
+.thumb-frame {
   aspect-ratio: 4 / 3;
   width: 100%;
+  overflow: hidden;
+}
+
+.thumb {
+  width: 100%;
+  height: 100%;
   background: var(--thumb-bg);
-  transition: opacity 0.25s ease;
+  transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 /* 실제 이미지가 들어오기 전까지의 플레이스홀더 단색 — 그라디언트 없이 작업마다 다른 flat color 하나씩만 */
-.thumb[data-color="coral"]    { background: #ff7a5c; }
-.thumb[data-color="sand"]     { background: #d9b789; }
-.thumb[data-color="sky"]      { background: #6d93e0; }
-.thumb[data-color="charcoal"] { background: #3a3d42; }
-.thumb[data-color="teal"]     { background: #2fa89a; }
-.thumb[data-color="navy"]     { background: #2b3a67; }
-.thumb[data-color="mustard"]  { background: #e0a83e; }
-.thumb[data-color="plum"]     { background: #74566f; }
-.thumb[data-color="rose"]     { background: #d1738a; }
-.thumb[data-color="olive"]    { background: #82863f; }
-.thumb[data-color="rust"]     { background: #b5573a; }
-.thumb[data-color="sage"]     { background: #7c9473; }
+.thumb[data-color="coral"]    { background-color: #ff7a5c; }
+.thumb[data-color="sand"]     { background-color: #d9b789; }
+.thumb[data-color="sky"]      { background-color: #6d93e0; }
+.thumb[data-color="charcoal"] { background-color: #3a3d42; }
+.thumb[data-color="teal"]     { background-color: #2fa89a; }
+.thumb[data-color="navy"]     { background-color: #2b3a67; }
+.thumb[data-color="mustard"]  { background-color: #e0a83e; }
+.thumb[data-color="plum"]     { background-color: #74566f; }
+.thumb[data-color="rose"]     { background-color: #d1738a; }
+.thumb[data-color="olive"]    { background-color: #82863f; }
+.thumb[data-color="rust"]     { background-color: #b5573a; }
+.thumb[data-color="sage"]     { background-color: #7c9473; }
+
+/* TEMP: 단색 플레이스홀더는 확대해도 티가 안 나서, 확인용으로 옅은 대각선 패턴을 얹어둠.
+   실제 이미지가 .thumb의 background로 들어오면 이 규칙(그리고 이 주석)은 지울 것. */
+.thumb {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.16) 0 2px,
+    transparent 2px 14px
+  );
+}
 
 .work-item:hover .thumb {
-  opacity: 0.85;
+  transform: scale(1.08);
 }
 
 /* 작업별 미리보기 비율 — 카테고리와 무관하게 작업마다 다르게 줘서 크기를 섞는다 */
-.thumb[data-size="square"]    { aspect-ratio: 1 / 1; }
-.thumb[data-size="portrait"]  { aspect-ratio: 3 / 4; }
-.thumb[data-size="tall"]      { aspect-ratio: 2 / 3; }
-.thumb[data-size="landscape"] { aspect-ratio: 16 / 9; }
-.thumb[data-size="wide"]      { aspect-ratio: 2 / 1; }
+.thumb-frame[data-size="square"]    { aspect-ratio: 1 / 1; }
+.thumb-frame[data-size="portrait"]  { aspect-ratio: 3 / 4; }
+.thumb-frame[data-size="tall"]      { aspect-ratio: 2 / 3; }
+.thumb-frame[data-size="landscape"] { aspect-ratio: 16 / 9; }
+.thumb-frame[data-size="wide"]      { aspect-ratio: 2 / 1; }
 
 /* 이미지 아래 항상 보이는 한 줄짜리 제목 캡션 (레퍼런스처럼 카드 프레임 없이 담백하게) */
 .static-caption {
@@ -1088,7 +1107,8 @@ a { color: inherit; }
   .tooltip-card::after,
   .tooltip-card .tooltip-date,
   .tooltip-card .tooltip-desc,
-  .logo-letter {
+  .logo-letter,
+  .thumb {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
