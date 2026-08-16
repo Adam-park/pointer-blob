@@ -131,7 +131,7 @@ function attachHoverTooltip(container) {
   });
 }
 
-// "필터 줄 ↔ 그리드", "그리드 행 사이" 간격을 안내판 높이 + 위아래 0.2mm만 남도록 CSS 변수로 넘긴다.
+// "인트로 ↔ 그리드", "카드 사이" 간격을 안내판 높이 + 위아래 0.2mm만 남도록 CSS 변수로 넘긴다.
 function setTapTooltipGap() {
   const gap = `calc(${Math.ceil(TOOLTIP_HEIGHT)}px + ${TAP_OFFSET}px + 0.4mm)`;
   document.documentElement.style.setProperty("--tap-tooltip-gap", gap);

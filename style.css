@@ -10,7 +10,8 @@
   --tooltip-text: #fafaf8;
   --tooltip-date: #9d9dff;
   --radius: 14px;
-  --gap: 24px;
+  --gap: 28px;
+  --thumb-bg: #ececea;
 }
 
 * { box-sizing: border-box; }
@@ -490,130 +491,80 @@ a { color: inherit; }
   margin: 0;
 }
 
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.filter-btn {
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-muted);
-  font-size: 13px;
-  padding: 8px 14px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.filter-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.filter-btn.is-active {
-  background: var(--text);
-  border-color: var(--text);
-  color: #fff;
-}
-
+/* 카테고리 구분 없이 모든 작업을 한 그리드에 모자이크로 배치한다(Pinterest식 다단 컬럼).
+   카드 너비는 컬럼 폭으로 고정되고, .thumb의 data-size별 aspect-ratio만 달라서
+   카드마다 높이가 들쭉날쭉해지며 자연스럽게 크기가 다른 미리보기가 만들어진다. */
 .work-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  row-gap: var(--gap);
+  column-count: 3;
   column-gap: var(--gap);
 }
 
-/* 터치 기기(hover 불가)에서는 탭 툴팁이 카드 위쪽에 뜨므로, 필터 바로 아래 첫 줄 / 그리드 행 사이에
+@media (max-width: 900px) {
+  .work-grid { column-count: 2; }
+}
+
+/* 터치 기기(hover 불가)에서는 탭 툴팁이 카드 위쪽에 뜨므로, 그리드 위 / 카드 사이에
    툴팁이 들어갈 공간을 확보한다. --tap-tooltip-gap은 tooltip.js가 안내판의 실제 렌더링 높이를 재서
    "안내판 높이 + 위아래 0.2mm"로 계산해 넣어주므로, 안내판이 딱 들어갈 정도로만 벌어진다.
    (JS가 아직 값을 못 넣은 최초 페인트 시점을 위한 대비용 기본값만 96px로 남겨둔다) */
 @media (hover: none) {
-  .section-head {
-    margin-bottom: var(--tap-tooltip-gap, 96px);
+  .work-grid {
+    margin-top: var(--tap-tooltip-gap, 96px);
   }
 
-  .work-grid {
-    row-gap: var(--tap-tooltip-gap, 96px);
+  .work-item {
+    margin-top: var(--tap-tooltip-gap, 96px);
   }
 }
 
+/* 레퍼런스(pesmotionstudio.com)처럼 카드에 테두리·둥근 모서리·그림자·색깔 프레임을 두지 않고,
+   이미지가 배경에 바로 놓인 갤러리형으로 간다. 실제 이미지가 들어오기 전까지는
+   무채색 플레이스홀더 박스로만 자리를 잡아둔다. */
 .work-item {
   position: relative;
-  border-radius: var(--radius);
-  overflow: hidden;
+  width: 100%;
+  break-inside: avoid;
+  margin-bottom: var(--gap);
   cursor: pointer;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.2s ease;
-}
-
-.work-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 32px -18px rgba(22, 22, 26, 0.35);
-}
-
-.work-item.is-hidden {
-  display: none;
 }
 
 .thumb {
   aspect-ratio: 4 / 3;
   width: 100%;
-  display: flex;
-  align-items: flex-end;
-  padding: 16px;
-  color: #fff;
-  position: relative;
+  background: var(--thumb-bg);
+  transition: opacity 0.25s ease;
 }
 
-.thumb::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.45), transparent 55%);
+/* 실제 이미지가 들어오기 전까지의 플레이스홀더 단색 — 그라디언트 없이 작업마다 다른 flat color 하나씩만 */
+.thumb[data-color="coral"]    { background: #ff7a5c; }
+.thumb[data-color="sand"]     { background: #d9b789; }
+.thumb[data-color="sky"]      { background: #6d93e0; }
+.thumb[data-color="charcoal"] { background: #3a3d42; }
+.thumb[data-color="teal"]     { background: #2fa89a; }
+.thumb[data-color="navy"]     { background: #2b3a67; }
+.thumb[data-color="mustard"]  { background: #e0a83e; }
+.thumb[data-color="plum"]     { background: #74566f; }
+.thumb[data-color="rose"]     { background: #d1738a; }
+.thumb[data-color="olive"]    { background: #82863f; }
+.thumb[data-color="rust"]     { background: #b5573a; }
+.thumb[data-color="sage"]     { background: #7c9473; }
+
+.work-item:hover .thumb {
+  opacity: 0.85;
 }
 
-.thumb-title {
-  position: relative;
-  z-index: 1;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
+/* 작업별 미리보기 비율 — 카테고리와 무관하게 작업마다 다르게 줘서 크기를 섞는다 */
+.thumb[data-size="square"]    { aspect-ratio: 1 / 1; }
+.thumb[data-size="portrait"]  { aspect-ratio: 3 / 4; }
+.thumb[data-size="tall"]      { aspect-ratio: 2 / 3; }
+.thumb[data-size="landscape"] { aspect-ratio: 16 / 9; }
+.thumb[data-size="wide"]      { aspect-ratio: 2 / 1; }
 
-/* category placeholder gradients */
-.thumb[data-cat="motion"]      { background: linear-gradient(135deg,#5b4bff,#8f7bff); }
-.thumb[data-cat="branding"]    { background: linear-gradient(135deg,#ff6b57,#ffb15c); }
-.thumb[data-cat="illustration"]{ background: linear-gradient(135deg,#20b2a3,#6fe0c8); }
-.thumb[data-cat="uiux"]        { background: linear-gradient(135deg,#2d2ae0,#5b8def); }
-.thumb[data-cat="video"]       { background: linear-gradient(135deg,#31343d,#6b7280); }
-
-/* mobile / no-hover caption (hidden by default, shown via JS class or media query) */
+/* 이미지 아래 항상 보이는 한 줄짜리 제목 캡션 (레퍼런스처럼 카드 프레임 없이 담백하게) */
 .static-caption {
-  padding: 12px 14px 14px;
-  border-top: 1px solid var(--border);
-}
-
-.static-caption .cap-date {
-  display: block;
-  font-size: 12px;
-  color: var(--accent);
-  font-weight: 600;
-  margin-bottom: 2px;
-}
-
-.static-caption .cap-desc {
-  display: block;
+  margin: 10px 0 0;
   font-size: 13px;
   color: var(--text-muted);
-}
-
-/* 툴팁(마우스 hover든 터치 tap이든)으로 정보를 보여줄 수 있으면 카드 아래 고정 캡션은 숨긴다.
-   JS가 켜질 때만 has-tooltip을 붙이므로, JS가 꺼진 환경에서는 이 캡션이 기본 폴백으로 남는다. */
-body.has-tooltip .static-caption {
-  display: none;
 }
 
 /* ---------- Cursor tooltip ---------- */
@@ -1143,7 +1094,7 @@ body.has-tooltip .static-caption {
   .hero { padding: 56px 18px 40px; }
   .hero-actions { flex-wrap: wrap; }
   .work-section { padding: 16px 18px 64px; }
-  .work-grid { grid-template-columns: 1fr 1fr; column-gap: 14px; }
+  .work-grid { column-count: 1; column-gap: 14px; }
   .page-intro { padding: 48px 18px 8px; }
   .about-block, .teaser-section, .cta-section, .contact-grid { padding-left: 18px; padding-right: 18px; }
 }
