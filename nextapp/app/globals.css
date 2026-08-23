@@ -656,6 +656,13 @@ a { color: inherit; }
   aspect-ratio: 16 / 9;
 }
 
+/* 이 작품을 읽기 좋은 날씨 — 오늘 서울 실시간 날씨(Open-Meteo API)와 나란히, 이미지 바로 아래 작게 */
+.reading-weather {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
 .detail-body h1 {
   font-size: clamp(24px, 4vw, 34px);
   margin: 0 0 12px;

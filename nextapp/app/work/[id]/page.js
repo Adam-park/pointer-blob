@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { works, catLabel, colorFor } from "../../lib/data";
 import BackButton from "../../components/BackButton";
+import { getSeoulWeather } from "../../lib/weather";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
@@ -14,11 +15,20 @@ export default async function WorkDetailPage({ params }) {
 
   if (!item) notFound();
 
+  const weather = await getSeoulWeather();
+
   return (
     <section className="detail-section">
       <BackButton />
-      <div className="thumb-frame detail-thumb-frame">
-        <div className="thumb" data-color={colorFor(item)} />
+      <div className="detail-media">
+        <div className="thumb-frame detail-thumb-frame">
+          <div className="thumb" data-color={colorFor(item)} />
+        </div>
+        {weather && (
+          <p className="reading-weather">
+            오늘 서울 {weather.condition} {weather.tempC}°C · 이 글은 {item.mood}에 읽기 좋아요
+          </p>
+        )}
       </div>
       <div className="detail-body">
         <p className="detail-cat">
