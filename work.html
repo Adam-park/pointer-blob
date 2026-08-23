@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kim Yuna — Portfolio</title>
+<title>Work — Kim Yuna</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,7 +19,7 @@
     <div class="header-inner">
       <a href="index.html" class="logo-badge logo-badge--sm" aria-label="Kim Yuna"><span class="logo-letter">K</span><span class="logo-letter">Y</span></a>
       <nav class="main-nav">
-        <a href="work.html">Work</a>
+        <a href="work.html" class="is-active" aria-current="page">Work</a>
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
       </nav>
@@ -27,32 +27,12 @@
   </header>
 
   <main>
-    <section class="hero">
-      <a href="index.html" class="logo-badge logo-badge--lg" aria-label="Kim Yuna"><span class="logo-letter">K</span><span class="logo-letter">Y</span></a>
+    <section class="page-intro">
+      <h1>Work</h1>
     </section>
 
     <section class="work-section">
-      <div class="section-head">
-        <h2>Selected Work</h2>
-        <a href="work.html" class="section-link">See all →</a>
-      </div>
-      <div class="work-grid" id="featuredGrid"></div>
-    </section>
-
-    <section class="cta-section">
-      <a href="contact.html" class="cta-title">Contact<span class="cta-arrow">→</span></a>
-      <div class="cta-meta">
-        <div class="cta-info">
-          <a href="mailto:hello@example.com">hello@example.com</a>
-          <span>010-1234-5678</span>
-          <span>서울, 대한민국</span>
-        </div>
-        <div class="cta-social">
-          <a href="#">Instagram</a>
-          <a href="#">Behance</a>
-          <a href="#">LinkedIn</a>
-        </div>
-      </div>
+      <div class="work-grid" id="workGrid"></div>
     </section>
   </main>
 
@@ -62,6 +42,6 @@
 
   <script src="data.js"></script>
   <script src="tooltip.js"></script>
-  <script src="home.js"></script>
+  <script src="work.js"></script>
 </body>
 </html>
