@@ -1,0 +1,127 @@
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: #f2ede4;
+  font-family: -apple-system, "Malgun Gothic", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 40px auto;
+}
+
+#bgImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* room-bg.png를 한 번 더 겹쳐서, 고양이+쿠션 영역만 clip-path로 잘라내 독립적으로 움직이는 레이어로 씀.
+   두 <img>가 같은 원본 이미지·같은 width:100%이라 좌표가 항상 픽셀 단위로 딱 맞음(반응형에서도 깨지지 않음). */
+#catLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  clip-path: inset(59.75% 44.48% 17.7% 37.77%);
+  transform-origin: 46.6% 82.3%; /* 쿠션 바닥 중앙 기준으로 부풀어오르게 */
+  animation: breathe 3.2s ease-in-out infinite;
+  transition: animation-duration 0.3s ease;
+}
+
+.stage.near #catLayer {
+  animation: breatheNear 1.6s ease-in-out infinite;
+}
+
+.stage.petting #catLayer {
+  animation: pettingBounce 0.5s ease-out 1;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50%      { transform: scale(1.018) rotate(0deg); }
+}
+
+@keyframes breatheNear {
+  0%, 100% { transform: scale(1.01) rotate(-0.6deg); }
+  50%      { transform: scale(1.035) rotate(0.6deg); }
+}
+
+@keyframes pettingBounce {
+  0%   { transform: scale(1.02); }
+  35%  { transform: scale(1.09) rotate(-2deg); }
+  60%  { transform: scale(0.98) rotate(1.5deg); }
+  100% { transform: scale(1.02) rotate(0deg); }
+}
+
+/* 실제 클릭/호버를 받는 투명 히트 영역 — catLayer와 정확히 같은 사각형 위치 */
+.pet-zone {
+  position: absolute;
+  left: 37.77%;
+  top: 59.75%;
+  width: 17.75%;
+  height: 22.55%;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.pet-hint {
+  position: absolute;
+  left: 46.6%;
+  top: 85%;
+  transform: translate(-50%, 0);
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0.9;
+  transition: opacity 0.4s ease;
+}
+
+.stage.near .pet-hint,
+.stage.hinted .pet-hint {
+  opacity: 0;
+}
+
+.reaction-pop {
+  position: absolute;
+  left: 46.6%;
+  top: 55%;
+  transform: translate(-50%, 0);
+  font-size: 22px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.reaction-pop.show {
+  animation: popFloat 1.1s ease-out 1;
+}
+
+@keyframes popFloat {
+  0%   { opacity: 0; transform: translate(-50%, 10px) scale(0.7); }
+  20%  { opacity: 1; transform: translate(-50%, -10px) scale(1.1); }
+  100% { opacity: 0; transform: translate(-50%, -60px) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #catLayer { animation: none !important; }
+}

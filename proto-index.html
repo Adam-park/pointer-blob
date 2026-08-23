@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>냥냥집 프로토타입 — 반응하는 고양이</title>
+<link rel="stylesheet" href="proto-style.css">
+</head>
+<body>
+  <div class="stage" id="stage">
+    <img id="bgImage" src="room-bg.png" alt="고양이가 사는 방" draggable="false">
+    <img id="catLayer" src="room-bg.png" alt="" draggable="false" aria-hidden="true">
+    <button class="pet-zone" id="petZone" aria-label="잠자는 고양이 쓰다듬기"></button>
+    <div class="pet-hint" id="petHint">다가가서 만져보세요</div>
+    <div class="reaction-pop" id="reactionPop"></div>
+  </div>
+
+<script src="proto-script.js"></script>
+</body>
+</html>
