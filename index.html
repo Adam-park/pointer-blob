@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>냥냥집</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="viewport" id="viewport">
+    <div class="panorama" id="panorama">
+      <img id="bgImage" src="room-bg.png" alt="냥냥집 - 고양이의 방" draggable="false">
+
+      <button class="hotspot" data-id="foodBowl" style="left:9%; top:68%; width:7%; height:7%;" aria-label="사료 그릇"></button>
+      <button class="hotspot" data-id="catTower" style="left:19%; top:30%; width:13%; height:37%;" aria-label="캣타워"></button>
+      <button class="hotspot" data-id="cat" style="left:39%; top:58%; width:16%; height:18%;" aria-label="잠자는 고양이"></button>
+      <button class="hotspot" data-id="window" style="left:59%; top:14%; width:23%; height:29%;" aria-label="창문"></button>
+      <button class="hotspot" data-id="tv" style="left:81%; top:45%; width:11%; height:24%;" aria-label="작은 TV"></button>
+      <button class="hotspot" data-id="toy" style="left:76%; top:75%; width:15%; height:9%;" aria-label="장난감"></button>
+    </div>
+
+    <div class="hint">← 드래그해서 둘러보기 · 스크롤로 확대 →</div>
+    <div class="toast" id="toast"></div>
+  </div>
+
+<script src="script.js"></script>
+</body>
+</html>

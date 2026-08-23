@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="800" viewBox="0 0 900 800">
+  <rect width="900" height="800" fill="#f2ede4"/>
+  <line x1="0" y1="620" x2="900" y2="620" stroke="#999" stroke-width="3" stroke-dasharray="10,8"/>
+  <text x="20" y="770" font-family="sans-serif" font-size="24" fill="#666">구역 2 / 3 — 방의 가운데 부분</text>
+
+  <!-- overlap zone left (connects to section 1) -->
+  <rect x="0" y="0" width="100" height="800" fill="#000" opacity="0.06"/>
+  <text x="10" y="40" font-family="sans-serif" font-size="18" fill="#333">이전 구역과 이어짐</text>
+
+  <!-- ③ 캣타워 -->
+  <rect x="150" y="220" width="220" height="400" fill="none" stroke="#8e44ad" stroke-width="4" stroke-dasharray="6,6"/>
+  <text x="160" y="260" font-family="sans-serif" font-size="28" fill="#8e44ad" font-weight="bold">③ 캣타워</text>
+  <text x="160" y="292" font-family="sans-serif" font-size="20" fill="#8e44ad">벽쪽, 세로로 김</text>
+
+  <!-- ④ 작은 TV -->
+  <rect x="510" y="280" width="240" height="180" fill="none" stroke="#16a085" stroke-width="4" stroke-dasharray="6,6"/>
+  <text x="520" y="330" font-family="sans-serif" font-size="28" fill="#16a085" font-weight="bold">④ 작은 TV</text>
+  <text x="520" y="362" font-family="sans-serif" font-size="20" fill="#16a085">선반/테이블 위</text>
+
+  <!-- overlap zone right (connects to section 3) -->
+  <rect x="800" y="0" width="100" height="800" fill="#000" opacity="0.06"/>
+  <text x="805" y="40" font-family="sans-serif" font-size="18" fill="#333">다음 구역과 이어짐</text>
+</svg>

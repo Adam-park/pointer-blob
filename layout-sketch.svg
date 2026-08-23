@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="800" viewBox="0 0 2400 800">
+  <rect width="2400" height="800" fill="#f2ede4"/>
+  <!-- floor line -->
+  <line x1="0" y1="620" x2="2400" y2="620" stroke="#999" stroke-width="3" stroke-dasharray="10,8"/>
+  <text x="20" y="770" font-family="sans-serif" font-size="26" fill="#666">파노라마 가로 스트립(좌우로 이어짐, 360도 회전용) — 대략적 배치 러프, 실제 그림 아님</text>
+
+  <!-- helper: labeled box function via manual rects -->
+
+  <!-- 1. 사료 그릇 (바닥, 왼쪽) -->
+  <rect x="80" y="520" width="180" height="100" fill="none" stroke="#c0392b" stroke-width="4" stroke-dasharray="6,6"/>
+  <text x="90" y="560" font-family="sans-serif" font-size="30" fill="#c0392b" font-weight="bold">① 사료 그릇</text>
+  <text x="90" y="595" font-family="sans-serif" font-size="22" fill="#c0392b">바닥/구석 · 제품 링크</text>
+
+  <!-- 2. 잠자는 고양이 (중심 근처, 바닥~중간) -->
+  <rect x="420" y="420" width="260" height="200" fill="none" stroke="#2c3e50" stroke-width="5"/>
+  <text x="430" y="470" font-family="sans-serif" font-size="32" fill="#2c3e50" font-weight="bold">② 잠자는 고양이</text>
+  <text x="430" y="505" font-family="sans-serif" font-size="22" fill="#2c3e50">메인 캐릭터, 방석 위</text>
+  <text x="430" y="600" font-family="sans-serif" font-size="22" fill="#2c3e50">클릭→고개흔듦+야옹 · 빗질제품 링크</text>
+
+  <!-- 3. 캣타워 -->
+  <rect x="820" y="220" width="220" height="400" fill="none" stroke="#8e44ad" stroke-width="4" stroke-dasharray="6,6"/>
+  <text x="830" y="260" font-family="sans-serif" font-size="30" fill="#8e44ad" font-weight="bold">③ 캣타워</text>
+  <text x="830" y="295" font-family="sans-serif" font-size="22" fill="#8e44ad">벽쪽, 세로로 김</text>
+  <text x="830" y="600" font-family="sans-serif" font-size="22" fill="#8e44ad">제품 링크</text>
+
+  <!-- 4. 작은 TV -->
+  <rect x="1180" y="280" width="240" height="180" fill="none" stroke="#16a085" stroke-width="4" stroke-dasharray="6,6"/>
+  <text x="1190" y="330" font-family="sans-serif" font-size="30" fill="#16a085" font-weight="bold">④ 작은 TV</text>
+  <text x="1190" y="365" font-family="sans-serif" font-size="22" fill="#16a085">선반/테이블 위</text>
+  <text x="1190" y="490" font-family="sans-serif" font-size="22" fill="#16a085">유튜브 영상 재생</text>
+
+  <!-- 5. 창문 (밖에 새) -->
+  <rect x="1560" y="120" width="280" height="320" fill="none" stroke="#2980b9" stroke-width="4" stroke-dasharray="6,6"/>
+  <text x="1570" y="170" font-family="sans-serif" font-size="30" fill="#2980b9" font-weight="bold">⑤ 창문(밖 새)</text>
+  <text x="1570" y="205" font-family="sans-serif" font-size="22" fill="#2980b9">높은 위치, 벽 상단</text>
+  <text x="1570" y="470" font-family="sans-serif" font-size="22" fill="#2980b9">새소리+고양이 반응</text>
+
+  <!-- 6. 장난감 -->
+  <rect x="2000" y="500" width="200" height="120" fill="none" stroke="#d35400" stroke-width="4" stroke-dasharray="6,6"/>
+  <text x="2010" y="540" font-family="sans-serif" font-size="30" fill="#d35400" font-weight="bold">⑥ 장난감</text>
+  <text x="2010" y="575" font-family="sans-serif" font-size="22" fill="#d35400">바닥, 오른쪽 끝</text>
+  <text x="2010" y="660" font-family="sans-serif" font-size="22" fill="#d35400">제품 링크</text>
+
+  <!-- rotation hint arrows -->
+  <text x="1150" y="60" font-family="sans-serif" font-size="24" fill="#333" text-anchor="middle">← 좌우로 계속 이어져서 한 바퀴 도는 파노라마 (양끝이 서로 연결됨) →</text>
+</svg>

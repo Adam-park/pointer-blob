@@ -1,0 +1,96 @@
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #f2ede4;
+  font-family: -apple-system, "Malgun Gothic", sans-serif;
+}
+
+.viewport {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.viewport.dragging {
+  cursor: grabbing;
+}
+
+.panorama {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 130%; /* 뷰포트보다 살짝 크게 잡아서 좌우로 드래그할 여유를 만듦 */
+  display: inline-block;
+  transform: translateY(-50%);
+  will-change: transform;
+}
+
+#bgImage {
+  display: block;
+  height: 100%;
+  width: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+.hotspot {
+  position: absolute;
+  background: transparent;
+  border: none;
+  border-radius: 14px;
+  padding: 0;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.hotspot:hover {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.85) inset, 0 0 24px 8px rgba(255, 214, 120, 0.85);
+}
+
+.hotspot.pulse {
+  animation: hotspotPulse 0.5s ease;
+}
+
+@keyframes hotspotPulse {
+  0%   { box-shadow: 0 0 0 3px rgba(255,255,255,0.9) inset, 0 0 0 0 rgba(255,214,120,0.9); }
+  60%  { box-shadow: 0 0 0 3px rgba(255,255,255,0.9) inset, 0 0 36px 14px rgba(255,214,120,0.7); }
+  100% { box-shadow: 0 0 0 3px rgba(255,255,255,0.9) inset, 0 0 24px 8px rgba(255,214,120,0.85); }
+}
+
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.toast {
+  position: absolute;
+  left: 50%;
+  top: 24px;
+  transform: translateX(-50%) translateY(-20px);
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 15px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}

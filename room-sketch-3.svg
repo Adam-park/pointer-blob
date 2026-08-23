@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="800" viewBox="0 0 900 800">
+  <rect width="900" height="800" fill="#f2ede4"/>
+  <line x1="0" y1="620" x2="900" y2="620" stroke="#999" stroke-width="3" stroke-dasharray="10,8"/>
+  <text x="20" y="770" font-family="sans-serif" font-size="24" fill="#666">구역 3 / 3 — 방의 오른쪽 부분 (끝, 여기서 드래그가 멈춤)</text>
+
+  <!-- overlap zone left (connects to section 2) -->
+  <rect x="0" y="0" width="100" height="800" fill="#000" opacity="0.06"/>
+  <text x="10" y="40" font-family="sans-serif" font-size="18" fill="#333">이전 구역과 이어짐</text>
+
+  <!-- ⑤ 창문 (밖에 새) -->
+  <rect x="150" y="120" width="280" height="320" fill="none" stroke="#2980b9" stroke-width="4" stroke-dasharray="6,6"/>
+  <text x="160" y="170" font-family="sans-serif" font-size="28" fill="#2980b9" font-weight="bold">⑤ 창문(밖 새)</text>
+  <text x="160" y="202" font-family="sans-serif" font-size="20" fill="#2980b9">높은 위치, 벽 상단</text>
+
+  <!-- ⑥ 장난감 -->
+  <rect x="600" y="500" width="200" height="120" fill="none" stroke="#d35400" stroke-width="4" stroke-dasharray="6,6"/>
+  <text x="610" y="540" font-family="sans-serif" font-size="28" fill="#d35400" font-weight="bold">⑥ 장난감</text>
+  <text x="610" y="572" font-family="sans-serif" font-size="20" fill="#d35400">바닥, 벽 끝</text>
+</svg>
