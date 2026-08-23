@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kim Yuna — Portfolio</title>
+<title>박무드 — Portfolio</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,7 +17,7 @@
 
   <header class="site-header">
     <div class="header-inner">
-      <a href="index.html" class="logo-badge logo-badge--sm" aria-label="Kim Yuna"><span class="logo-letter">K</span><span class="logo-letter">Y</span></a>
+      <a href="index.html" class="logo-badge logo-badge--sm" aria-label="박무드"><span class="logo-letter">P</span></a>
       <nav class="main-nav">
         <a href="work.html">Work</a>
         <a href="about.html">About</a>
@@ -27,16 +27,17 @@
   </header>
 
   <main>
-    <section class="hero">
-      <a href="index.html" class="logo-badge logo-badge--lg" aria-label="Kim Yuna"><span class="logo-letter">K</span><span class="logo-letter">Y</span></a>
-    </section>
-
-    <section class="work-section">
-      <div class="section-head">
+    <section class="shelf-section">
+      <div class="shelf-intro">
         <h2>Selected Work</h2>
-        <a href="work.html" class="section-link">See all →</a>
       </div>
-      <div class="work-grid" id="featuredGrid"></div>
+      <div class="shelf">
+        <button class="shelf-arrow shelf-arrow--prev" id="shelfPrev" type="button" aria-label="이전 서류">‹</button>
+        <div class="shelf-viewport">
+          <div class="shelf-track" id="shelfTrack"></div>
+        </div>
+        <button class="shelf-arrow shelf-arrow--next" id="shelfNext" type="button" aria-label="다음 서류">›</button>
+      </div>
     </section>
 
     <section class="cta-section">
@@ -49,7 +50,7 @@
         </div>
         <div class="cta-social">
           <a href="#">Instagram</a>
-          <a href="#">Behance</a>
+          <a href="#">Brunch</a>
           <a href="#">LinkedIn</a>
         </div>
       </div>
@@ -57,11 +58,13 @@
   </main>
 
   <footer class="site-footer">
-    <p>&copy; 2026 Kim Yuna. All rights reserved.</p>
+    <p>&copy; 2026 박무드. All rights reserved.</p>
   </footer>
 
+  <script src="sundial.js"></script>
   <script src="data.js"></script>
   <script src="tooltip.js"></script>
+  <script src="sound.js"></script>
   <script src="home.js"></script>
 </body>
 </html>

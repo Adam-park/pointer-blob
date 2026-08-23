@@ -2,6 +2,11 @@
 const grid = document.getElementById("workGrid");
 
 if (grid) {
-  works.forEach((w) => grid.appendChild(createWorkCard(w)));
+  works.forEach((w, i) => grid.appendChild(createWorkCard(w, i)));
   attachTooltip(grid);
+
+  grid.addEventListener("click", (e) => {
+    const item = e.target.closest(".work-item");
+    if (item) window.location.href = `work-detail.html?id=${item.dataset.id}`;
+  });
 }

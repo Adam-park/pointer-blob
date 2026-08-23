@@ -8,18 +8,11 @@
 </head>
 <body>
 
-  <div id="cursor-tooltip" class="cursor-tooltip" aria-hidden="true">
-    <div class="tooltip-card">
-      <span class="tooltip-date"></span>
-      <span class="tooltip-desc"></span>
-    </div>
-  </div>
-
   <header class="site-header">
     <div class="header-inner">
       <a href="index.html" class="logo-badge logo-badge--sm" aria-label="박무드"><span class="logo-letter">P</span></a>
       <nav class="main-nav">
-        <a href="work.html" class="is-active" aria-current="page">Work</a>
+        <a href="work.html">Work</a>
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
       </nav>
@@ -27,12 +20,8 @@
   </header>
 
   <main>
-    <section class="page-intro">
-      <h1>Work</h1>
-    </section>
-
-    <section class="work-section">
-      <div class="work-grid" id="workGrid"></div>
+    <section class="detail-section" id="detailSection">
+      <button class="section-link detail-back" id="backBtn" type="button">← Back</button>
     </section>
   </main>
 
@@ -42,7 +31,6 @@
 
   <script src="sundial.js"></script>
   <script src="data.js"></script>
-  <script src="tooltip.js"></script>
-  <script src="work.js"></script>
+  <script src="work-detail.js"></script>
 </body>
 </html>
