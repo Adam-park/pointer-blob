@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { works, catLabel, colorFor } from "../../lib/data";
 import BackButton from "../../components/BackButton";
-import { getSeoulWeather } from "../../lib/weather";
+import WeatherEffect from "../../components/WeatherEffect";
+import { getSeoulWeather, moodEffectType } from "../../lib/weather";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
@@ -16,6 +17,7 @@ export default async function WorkDetailPage({ params }) {
   if (!item) notFound();
 
   const weather = await getSeoulWeather();
+  const fxType = moodEffectType(item.mood);
 
   return (
     <section className="detail-section">
@@ -23,6 +25,7 @@ export default async function WorkDetailPage({ params }) {
       <div className="detail-media">
         <div className="thumb-frame detail-thumb-frame">
           <div className="thumb" data-color={colorFor(item)} />
+          <WeatherEffect type={fxType} />
         </div>
         {weather && (
           <p className="reading-weather">

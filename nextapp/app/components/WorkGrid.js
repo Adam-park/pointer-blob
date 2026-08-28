@@ -3,13 +3,10 @@ import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { works } from "../lib/data";
 import WorkCard from "./WorkCard";
-import { useWorkTooltip } from "../lib/useWorkTooltip";
 
 export default function WorkGrid() {
   const gridRef = useRef(null);
   const router = useRouter();
-
-  useWorkTooltip(gridRef);
 
   useEffect(() => {
     const grid = gridRef.current;

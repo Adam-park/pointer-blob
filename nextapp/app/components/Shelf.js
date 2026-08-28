@@ -3,8 +3,7 @@ import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { works } from "../lib/data";
 import WorkCard from "./WorkCard";
-import { useWorkTooltip } from "../lib/useWorkTooltip";
-import { playPenClick, playPaperFlip } from "../lib/sound";
+import { playPaperTurn, playBookPageTurn } from "../lib/sound";
 
 // 작가의 서재 — Selected Work를 양옆으로 무한 반복되는 캐러셀로 노출.
 // works를 3벌 이어붙여 가운데 사본에서 시작하고, 가장자리에 닿으면 트랜지션 없이
@@ -15,8 +14,6 @@ export default function Shelf() {
   const prevBtnRef = useRef(null);
   const nextBtnRef = useRef(null);
   const router = useRouter();
-
-  useWorkTooltip(trackRef);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -56,7 +53,7 @@ export default function Shelf() {
     function onTrackClick(e) {
       const item = e.target.closest(".work-item");
       if (!item) return;
-      playPaperFlip();
+      playBookPageTurn();
       const id = item.dataset.id;
       setTimeout(() => {
         router.push(`/work/${id}`);
@@ -73,12 +70,12 @@ export default function Shelf() {
     const nextBtn = nextBtnRef.current;
 
     function onPrev() {
-      playPenClick();
+      playPaperTurn();
       indexRef.current -= 1;
       applyTransform(true);
     }
     function onNext() {
-      playPenClick();
+      playPaperTurn();
       indexRef.current += 1;
       applyTransform(true);
     }

@@ -16,6 +16,22 @@ function labelForCode(code) {
   return "흐림";
 }
 
+// item.mood(이 작품이 어울리는 날씨) 문구에 따라 상세페이지에 겹쳐 보여줄 연출 종류를 고른다.
+// 실제 오늘 날씨가 아니라 작품 고유의 무드 기준. 우선순위 순서대로 검사 —
+// "맑고 더운 날"처럼 여러 키워드가 겹칠 수 있어 순서가 중요하다(더운 날씨가 먼저 잡히게).
+export function moodEffectType(mood) {
+  if (!mood) return null;
+  if (mood.includes("비")) return "rain";
+  if (mood.includes("더운") || mood.includes("더위")) return "sun";
+  if (mood.includes("흐린")) return "cloud";
+  if (mood.includes("바람")) return "wind";
+  if (mood.includes("고요")) return "night";
+  if (mood.includes("선선") || mood.includes("쌀쌀")) return "chilly";
+  if (mood.includes("포근")) return "cozy";
+  if (mood.includes("화창") || mood.includes("맑") || mood.includes("볕")) return "clear";
+  return null;
+}
+
 // 실패해도 상세페이지 전체가 깨지면 안 되므로, 실패 시 null을 돌려주고 호출부에서 조용히 숨긴다
 export async function getSeoulWeather() {
   try {

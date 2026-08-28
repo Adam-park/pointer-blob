@@ -8,9 +8,6 @@
   --border: #e2d5bd;
   --accent: #8a3324;
   --accent-soft: #f1e0d8;
-  --tooltip-bg: #2e2417;
-  --tooltip-text: #fdf8ee;
-  --tooltip-date: #e3b98f;
   --radius: 14px;
   --gap: 28px;
   --thumb-bg: #e8ddc7;
@@ -663,6 +660,117 @@ a { color: inherit; }
   color: var(--text-muted);
 }
 
+/* 작품 무드(item.mood)에 어울리는 날씨 연출 — 썸네일 위에 겹쳐서, 비는 위→아래로 낙하,
+   더위는 아래→위로 아지랑이처럼 흔들리며 상승한다. lib/weather.js의 moodEffectType이 켜고 끈다. */
+.weather-fx {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 비 — "비가 내린다"류 문장을 세로쓰기로 세운 한 줄(=한 줄기)이 그대로 위→아래로 흘러내린다 */
+.weather-fx-rain-line {
+  position: absolute;
+  top: -10%;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.62);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  animation-name: weather-fx-rain-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes weather-fx-rain-fall {
+  0%   { transform: translateY(-40px); opacity: 0; }
+  10%  { opacity: 0.75; }
+  80%  { opacity: 0.6; }
+  100% { transform: translateY(540px); opacity: 0; }
+}
+
+/* 흐림 — 가상의 안개 기상특보 문구를 격자로 촘촘히 채워 그리고(canvas), 각 글자 크기·투명도를
+   사인파로 흔들어 아스키아트 물결처럼 안개가 일렁이게 한다. 구현은 WeatherEffect.js의 CloudFog. */
+.weather-fx-cloud-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 해 — 오른쪽 위 구석에 해가 고정되어 떠 있고(뜨고 지지 않음, 은은한 빛 맥동만), 그 주위로
+   문장 5개가 각자 다른 반지름의 동심원을 그리며 뱀처럼 굽이쳐 돈다. 문장마다 회전 방향이 달라
+   원들이 서로 엇갈려 움직인다. */
+.weather-fx-sun {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.weather-fx-sun-anchor {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 0;
+  height: 0;
+}
+
+.weather-fx-sun-orb {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff6d8, #ffd23f 55%, #ff9f1c 100%);
+  animation: weather-fx-sun-glow 3.5s ease-in-out infinite;
+}
+
+@keyframes weather-fx-sun-glow {
+  0%, 100% { box-shadow: 0 0 14px 4px rgba(255, 184, 76, 0.45); }
+  50%      { box-shadow: 0 0 22px 7px rgba(255, 184, 76, 0.65); }
+}
+
+.weather-fx-sun-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  animation-name: weather-fx-sun-ring-spin;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.weather-fx-sun-ring-ccw {
+  animation-direction: reverse;
+}
+
+@keyframes weather-fx-sun-ring-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.weather-fx-sun-char {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
 .detail-body h1 {
   font-size: clamp(24px, 4vw, 34px);
   margin: 0 0 12px;
@@ -719,20 +827,6 @@ a { color: inherit; }
   .work-grid { column-count: 2; }
 }
 
-/* 터치 기기(hover 불가)에서는 탭 툴팁이 카드 위쪽에 뜨므로, 그리드 위 / 카드 사이에
-   툴팁이 들어갈 공간을 확보한다. --tap-tooltip-gap은 tooltip.js가 안내판의 실제 렌더링 높이를 재서
-   "안내판 높이 + 위아래 0.2mm"로 계산해 넣어주므로, 안내판이 딱 들어갈 정도로만 벌어진다.
-   (JS가 아직 값을 못 넣은 최초 페인트 시점을 위한 대비용 기본값만 96px로 남겨둔다) */
-@media (hover: none) {
-  .work-grid {
-    margin-top: var(--tap-tooltip-gap, 96px);
-  }
-
-  .work-item {
-    margin-top: var(--tap-tooltip-gap, 96px);
-  }
-}
-
 /* 레퍼런스(pesmotionstudio.com)처럼 카드에 테두리·둥근 모서리·그림자·색깔 프레임을 두지 않고,
    이미지가 배경에 바로 놓인 갤러리형으로 간다. 실제 이미지가 들어오기 전까지는
    무채색 플레이스홀더 박스로만 자리를 잡아둔다. */
@@ -748,6 +842,7 @@ a { color: inherit; }
    .thumb-frame이 카드의 비율·테두리를 잡고 overflow:hidden으로 밖으로 삐져나오는 부분을 잘라내면,
    그 안의 .thumb(실제 이미지가 들어올 자리)만 scale()로 커지면서 "액자 안에서 확대되는" 느낌이 난다. */
 .thumb-frame {
+  position: relative;
   aspect-ratio: 4 / 3;
   width: 100%;
   overflow: hidden;
@@ -774,18 +869,21 @@ a { color: inherit; }
 .thumb[data-color="rust"]     { background-color: #b5573a; }
 .thumb[data-color="sage"]     { background-color: #7c9473; }
 
-/* TEMP: 단색 플레이스홀더는 확대해도 티가 안 나서, 확인용으로 옅은 대각선 패턴을 얹어둠.
-   실제 이미지가 .thumb의 background로 들어오면 이 규칙(그리고 이 주석)은 지울 것. */
-.thumb {
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.16) 0 2px,
-    transparent 2px 14px
-  );
+/* 커서를 올리면(또는 키보드 포커스) 색 점들이 격자로 가운데서부터 퍼지듯 자라나며 반짝이는
+   캔버스 효과로 교체 — 구현은 PixelReveal.js. 카드 하나에 효과 하나만 두기 위해 기존의
+   확대/테두리 프레임 효과는 제거했다. */
+.pixel-reveal {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transition: background 0.25s ease, border-color 0.25s ease, border-radius 0.25s ease;
 }
 
-.work-item:hover .thumb {
-  transform: scale(1.08);
+.pixel-reveal-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 /* 작업별 미리보기 비율 — 카테고리와 무관하게 작업마다 다르게 줘서 크기를 섞는다 */
@@ -802,500 +900,39 @@ a { color: inherit; }
   color: var(--text-muted);
 }
 
-/* ---------- Cursor tooltip ---------- */
-/* 바깥(.cursor-tooltip)은 커서 위치만 담당, 안쪽(.tooltip-card)이 색·진동·글리치 등 */
-/* 카테고리별 연출을 담당한다 — 두 transform이 서로 방해하지 않도록 분리했다. */
-
-.cursor-tooltip {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 999;
-  pointer-events: none;
-  opacity: 0;
-  transform: translate(-9999px, -9999px);
-  transition: opacity 0.12s ease;
-  will-change: transform, opacity;
-}
-
-.cursor-tooltip.is-visible {
-  opacity: 1;
-}
-
-/* width와 padding-top을 모든 효과가 공유하는 고정값으로 못박아서, 어떤 작업을 눌러도
-   안내판 크기가 항상 똑같이 나오게 한다 — 효과별로는 배경·모션만 다르고 "그릇" 크기는 안 바뀐다.
-   padding-top 24px는 가장 위쪽 공간을 많이 쓰는 fx-ribbon-untie 리본을 기준으로 잡은 값. */
-.tooltip-card {
-  position: relative;
-  width: 200px;
-  padding: 24px 13px 9px;
-  border-radius: 9px;
-  font-size: 12.5px;
-  line-height: 1.45;
-  color: #fff;
-  box-shadow: 0 10px 26px -8px rgba(0,0,0,0.5);
-  background: var(--tooltip-bg);
-}
-
-/* 배경 그래픽이 화려해져도 글자가 묻히지 않도록, 두꺼운 외곽선 대신 은은한 그림자만 준다.
-   position:relative는 장식용 ::before/::after(그래픽 레이어)보다 텍스트가 항상 위에 그려지게 하기 위함 —
-   그래야 "글자가 흐릿하다가 진해지는" 문제 없이 처음부터 또렷하게 보인다. */
-.tooltip-card .tooltip-date,
-.tooltip-card .tooltip-desc {
-  position: relative;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
-}
-
-.tooltip-card .tooltip-date {
-  display: block;
-  font-weight: 700;
-  font-size: 11.5px;
-  letter-spacing: 0.02em;
-  margin-bottom: 2px;
-  opacity: 0.85;
-}
-
-.tooltip-card .tooltip-desc {
-  display: block;
+/* 제목 아래 간략한 설명 — 평소엔 폭 0으로 숨어 있다가, 커서를 올리거나(호버) 키보드로
+   포커스하면 글자 수(--desc-len, WorkCard가 넣어줌)만큼 step을 나눠 왼쪽에서 오른쪽으로
+   타이핑되듯 드러난다. 카드에 테두리·그림자를 두지 않는 이 사이트 톤을 지키기 위해
+   박스 없이 여백과 옅은 색(--text-muted)만으로 차분하게 보여준다.
+   상자 너비는 항상 실제 글자 폭(width: fit-content)만큼 잡고, "얼마나 보여줄지"는
+   clip-path 퍼센트로만 조절한다 — 1ch 같은 고정폭 가정을 안 쓰니 한글·영문 어떤 글자든
+   폭 계산이 틀어져 잘려 보이는 일이 없다. */
+.work-desc {
+  margin: 6px 0 0;
+  width: fit-content;
+  max-width: 100%;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* ==================================================================
-   작업별 맞춤 툴팁 연출 (fx-*)
-   카테고리 프리셋이 아니라 "이 작업 하나"를 위해 색과 모션을 따로 짰다.
-   ================================================================== */
-
-/* 낭독(오디오 녹음) 카테고리 공통 요소 — 어떤 작업이든(아래 fx가 무엇이든) REC 표시등은 항상 뜬다 */
-.tooltip-card[data-cat="reading"] {
-  padding-right: 24px;
-}
-
-.tooltip-card[data-cat="reading"]::before {
-  content: "";
-  position: absolute;
-  top: 9px;
-  right: 10px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #ef4444;
-  box-shadow: 0 0 6px 1px rgba(239, 68, 68, 0.85);
-  animation: tt-rec-blink 1s steps(1, end) infinite;
-}
-
-@keyframes tt-rec-blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-
-/* 1 · 여름 캠페인 타이틀 모션 — 바다·모래 톤으로 물결처럼 살랑이고, 햇빛이 한 번 스윽 지나감 */
-.tooltip-card.fx-beach-wave {
-  background: linear-gradient(180deg, #0ea5e9 0%, #22d3ee 45%, #fde68a 100%);
-  overflow: hidden;
-  animation: tt-beach-wave 2.4s ease-in-out infinite;
-}
-
-@keyframes tt-beach-wave {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  25% { transform: translateY(-2px) rotate(0.6deg); }
-  50% { transform: translateY(1px) rotate(-0.6deg); }
-  75% { transform: translateY(-1px) rotate(0.4deg); }
-}
-
-.tooltip-card.fx-beach-wave::before {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -60%;
-  width: 35%;
-  height: 200%;
-  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-  transform: rotate(20deg);
-  animation: tt-beach-glint 1.4s ease-in-out 0.1s 1;
-}
-
-@keyframes tt-beach-glint {
-  0% { left: -60%; opacity: 0; }
-  15% { opacity: 1; }
-  60% { left: 130%; opacity: 0.6; }
-  100% { left: 130%; opacity: 0; }
-}
-
-/* 2 · 카페 브랜드 리뉴얼 — 안내판 자체가 투명한 유리컵처럼 보이고, 커피색이 바닥에서부터 차오름 */
-.tooltip-card.fx-coffee-fill {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  overflow: hidden;
-}
-
-.tooltip-card.fx-coffee-fill::before {
-  content: "";
-  position: absolute;
-  left: -1px;
-  right: -1px;
-  bottom: -1px;
-  height: calc(100% + 2px);
-  background: linear-gradient(180deg, #b45309 0%, #78350f 100%);
-  transform: scaleY(0);
-  transform-origin: bottom;
-  animation: tt-coffee-fill 0.55s cubic-bezier(.3, .7, .35, 1) forwards;
-}
-
-@keyframes tt-coffee-fill {
-  to { transform: scaleY(1); }
-}
-
-/* 3 · 제품 소개 인터랙션 — 온보딩 스텝 점 3개가 좌→우로 순서대로 켜진 뒤 키워드 등장 */
-.tooltip-card.fx-onboarding-dots {
-  background: linear-gradient(135deg, #2563eb, #0ea5e9);
-}
-
-.tooltip-card.fx-onboarding-dots::before {
-  content: "";
-  position: absolute;
-  top: 9px;
-  left: 13px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.35);
-  box-shadow: 13px 0 0 rgba(255, 255, 255, 0.35), 26px 0 0 rgba(255, 255, 255, 0.35);
-  animation: tt-dots-step 0.6s steps(1, end) forwards;
-}
-
-@keyframes tt-dots-step {
-  0% { background: rgba(255, 255, 255, 0.35); box-shadow: 13px 0 0 rgba(255, 255, 255, 0.35), 26px 0 0 rgba(255, 255, 255, 0.35); }
-  33% { background: #fff; box-shadow: 13px 0 0 rgba(255, 255, 255, 0.35), 26px 0 0 rgba(255, 255, 255, 0.35); }
-  66% { background: #fff; box-shadow: 13px 0 0 #fff, 26px 0 0 rgba(255, 255, 255, 0.35); }
-  100% { background: #fff; box-shadow: 13px 0 0 #fff, 26px 0 0 #fff; }
-}
-
-.tooltip-card.fx-onboarding-dots .tooltip-date,
-.tooltip-card.fx-onboarding-dots .tooltip-desc {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-muted);
   opacity: 0;
-  animation: tt-text-reveal 0.3s ease forwards;
-  animation-delay: 0.62s;
+  clip-path: inset(0 100% 0 0);
+  transition: opacity 0.15s ease;
 }
 
-/* 4 · 다큐멘터리 예고편 편집 — 어두운 화면, 정적처럼 깜빡이다가 키워드가 서서히 드러남 */
-.tooltip-card.fx-doc-static {
-  background: linear-gradient(160deg, #050506, #16161a);
-  animation: tt-doc-flicker 0.6s steps(1, end);
+.work-item:hover .work-desc,
+.work-item:focus-within .work-desc {
+  opacity: 1;
+  animation: work-desc-type 0.6s steps(var(--desc-len), end) forwards;
 }
 
-@keyframes tt-doc-flicker {
-  0% { opacity: 0.35; filter: brightness(1.8) contrast(1.3); }
-  6% { opacity: 1; filter: brightness(0.6); }
-  12% { opacity: 0.4; filter: brightness(2); }
-  18% { opacity: 1; filter: brightness(0.8); }
-  26% { opacity: 0.65; filter: brightness(1.6); }
-  34% { opacity: 1; filter: brightness(1); }
-  44% { opacity: 0.85; filter: brightness(1.25); }
-  55%, 100% { opacity: 1; filter: brightness(1); }
-}
-
-.tooltip-card.fx-doc-static .tooltip-date,
-.tooltip-card.fx-doc-static .tooltip-desc {
-  opacity: 0;
-  animation: tt-text-reveal 0.35s ease forwards;
-  animation-delay: 0.55s;
-}
-
-@keyframes tt-text-reveal {
-  from { opacity: 0; transform: translateY(2px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* 5 · 캐릭터 굿즈 일러스트 — 캐릭터가 통통 튀는 젤리 같은 스쿼시&스트레치 */
-.tooltip-card.fx-character-jelly {
-  background: linear-gradient(135deg, #f472b6, #fb923c);
-  /* 기본값(중앙 기준)으로 늘였다 줄이면 박스가 원래 자리를 벗어나 보이므로,
-     아래쪽 가장자리를 고정축으로 삼아 눌렸다 튀는 지점이 항상 같은 자리에 있게 한다 */
-  transform-origin: center bottom;
-  animation: tt-jelly 0.55s cubic-bezier(.34, 1.8, .64, 1);
-}
-
-@keyframes tt-jelly {
-  0% { transform: scale(0.6, 1.4); }
-  35% { transform: scale(1.25, 0.75); }
-  55% { transform: scale(0.9, 1.1); }
-  75% { transform: scale(1.05, 0.95); }
-  100% { transform: scale(1, 1); }
-}
-
-/* 6 · 금융앱 대시보드 모션 — 주가 그래프 선이 먼저 그려지고, 그 다음 키워드가 나타남 */
-.tooltip-card.fx-stock-chart {
-  background: linear-gradient(135deg, #0f766e, #134e4a);
-  overflow: hidden;
-}
-
-.tooltip-card.fx-stock-chart::before,
-.tooltip-card.fx-stock-chart::after {
-  content: "";
-  position: absolute;
-  height: 2px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, #4ade80, #a7f3d0);
-  box-shadow: 0 0 6px 1px rgba(74, 222, 128, 0.7);
-  transform-origin: left center;
-  opacity: 0;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease-out;
-  animation-duration: 0.28s;
-}
-
-.tooltip-card.fx-stock-chart::before {
-  left: 10px;
-  bottom: 16px;
-  width: 20px;
-  transform: rotate(-8deg) scaleX(0);
-  animation-name: tt-stock-draw-1;
-  animation-delay: 0.05s;
-}
-
-.tooltip-card.fx-stock-chart::after {
-  left: 27px;
-  bottom: 21px;
-  width: 22px;
-  transform: rotate(-32deg) scaleX(0);
-  animation-name: tt-stock-draw-2;
-  animation-delay: 0.3s;
-}
-
-@keyframes tt-stock-draw-1 {
-  to { opacity: 1; transform: rotate(-8deg) scaleX(1); }
-}
-
-@keyframes tt-stock-draw-2 {
-  to { opacity: 1; transform: rotate(-32deg) scaleX(1); }
-}
-
-.tooltip-card.fx-stock-chart .tooltip-date,
-.tooltip-card.fx-stock-chart .tooltip-desc {
-  opacity: 0;
-  animation: tt-text-reveal 0.3s ease forwards;
-  animation-delay: 0.62s;
-}
-
-/* 7 · 스타트업 CI 개발 — 브랜드 컬러 후보를 팔레트처럼 빠르게 넘겨보다가 최종 컬러에 착지 */
-.tooltip-card.fx-color-swatch {
-  animation: tt-color-swatch 0.6s steps(1, end) forwards;
-}
-
-@keyframes tt-color-swatch {
-  0% { background-color: #f43f5e; }
-  20% { background-color: #f97316; }
-  40% { background-color: #eab308; }
-  60% { background-color: #22c55e; }
-  80% { background-color: #0ea5e9; }
-  100% { background-color: #1e1b4b; }
-}
-
-/* 8 · 쇼핑 앱 결제 플로우 — 결제 진행 바가 다 차오르면, 완료 배지가 팝! 튀어나오며 성공을 알림
-   (금융앱의 "선 그리기"와 겹치지 않도록 완전히 다른 구조: 막대바 채우기 + 원형 배지 팝) */
-.tooltip-card.fx-payment-success {
-  background: linear-gradient(135deg, #16a34a, #0f766e);
-  animation: tt-payment-glow 0.5s ease-out;
-  animation-delay: 0.38s;
-}
-
-@keyframes tt-payment-glow {
-  0% { box-shadow: 0 10px 26px -8px rgba(0, 0, 0, 0.5), 0 0 0 0 rgba(74, 222, 128, 0); }
-  40% { box-shadow: 0 10px 26px -8px rgba(0, 0, 0, 0.5), 0 0 18px 3px rgba(74, 222, 128, 0.8); }
-  100% { box-shadow: 0 10px 26px -8px rgba(0, 0, 0, 0.5), 0 0 0 0 rgba(74, 222, 128, 0); }
-}
-
-.tooltip-card.fx-payment-success::before {
-  content: "";
-  position: absolute;
-  left: 12px;
-  bottom: 11px;
-  width: 46px;
-  height: 3px;
-  border-radius: 2px;
-  background: #fff;
-  transform-origin: left center;
-  transform: scaleX(0);
-  animation: tt-payment-bar 0.35s ease-out forwards;
-}
-
-@keyframes tt-payment-bar {
-  to { transform: scaleX(1); }
-}
-
-.tooltip-card.fx-payment-success::after {
-  content: "";
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background-color: #fff;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23166534' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
-  background-size: 9px 9px;
-  background-repeat: no-repeat;
-  background-position: center;
-  transform: scale(0);
-  opacity: 0;
-  animation: tt-payment-badge 0.4s cubic-bezier(.34, 1.8, .64, 1) forwards;
-  animation-delay: 0.38s;
-}
-
-@keyframes tt-payment-badge {
-  0% { transform: scale(0); opacity: 0; }
-  60% { transform: scale(1.25); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-/* 9 · 뮤직비디오 색보정 — 무지개색이 흐르고, 좌우로 한 번씩 발랄하게 튀어오름 */
-.tooltip-card.fx-mv-rainbow-bounce {
-  background: linear-gradient(90deg, #ff5f6d, #ffc371, #4ade80, #38bdf8, #a78bfa, #ff5f6d);
-  background-size: 300% 100%;
-  animation: tt-mv-bounce 0.6s cubic-bezier(.34, 1.6, .64, 1), tt-mv-rainbow 3s linear infinite;
-}
-
-@keyframes tt-mv-bounce {
-  0%, 100% { transform: translateX(0) scale(1); }
-  20% { transform: translateX(-10px) scale(1.06); }
-  40% { transform: translateX(0) scale(1); }
-  60% { transform: translateX(10px) scale(1.06); }
-  80% { transform: translateX(0) scale(1); }
-}
-
-@keyframes tt-mv-rainbow {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 300% 50%; }
-}
-
-/* 10 · 브런치 표지 일러스트 — 수채화 번지듯 천천히 커지며 자리 잡음 (텍스트는 처음부터 또렷하게) */
-.tooltip-card.fx-watercolor-bleed {
-  background: linear-gradient(135deg, #fbcfe8, #bae6fd, #bbf7d0);
-  color: #1f2937;
-  transform-origin: center bottom;
-  animation: tt-watercolor-bleed 0.45s ease-out;
-}
-
-@keyframes tt-watercolor-bleed {
-  0% { transform: scale(0.85); }
-  100% { transform: scale(1); }
-}
-
-/* 11 · 런칭 티저 모션그래픽 — 사진관 플래시처럼 왼쪽이 먼저 번쩍, 이어서 오른쪽이 번쩍 (동시 X, 번갈아) */
-.tooltip-card.fx-teaser-flash {
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-  overflow: hidden;
-  animation: tt-teaser-settle 0.5s ease-out;
-}
-
-@keyframes tt-teaser-settle {
-  0% { transform: scale(0.96); }
-  100% { transform: scale(1); }
-}
-
-.tooltip-card.fx-teaser-flash::before,
-.tooltip-card.fx-teaser-flash::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 60px;
-  height: 60px;
-  margin-top: -30px;
-  border-radius: 50%;
-  /* 밝은 중심부 + 사방으로 뻗는 얇은 광선 = 카메라 플래시 별빛(starburst) 모양 */
-  background:
-    repeating-conic-gradient(from 0deg, rgba(255, 255, 255, 0.9) 0deg 3deg, transparent 3deg 20deg),
-    radial-gradient(circle, #fff 0%, rgba(255, 255, 255, 0.95) 14%, rgba(255, 255, 255, 0) 60%);
-  mix-blend-mode: screen;
-  opacity: 0;
-}
-
-.tooltip-card.fx-teaser-flash::before {
-  left: -22px;
-  transform: scale(0.2);
-  animation: tt-flash-pop 0.42s cubic-bezier(.05, .7, .3, 1);
-  animation-delay: 0s;
-}
-
-.tooltip-card.fx-teaser-flash::after {
-  right: -22px;
-  transform: scale(0.2);
-  animation: tt-flash-pop 0.42s cubic-bezier(.05, .7, .3, 1);
-  animation-delay: 0.4s;
-}
-
-/* 순간적으로 확 터졌다가(초반 8%에 최고 밝기) 빠르게 잦아드는 실제 플래시 커브 */
-@keyframes tt-flash-pop {
-  0% { opacity: 0; transform: scale(0.2) rotate(0deg); }
-  8% { opacity: 1; transform: scale(1.05) rotate(6deg); }
-  30% { opacity: 0.5; transform: scale(1.2) rotate(10deg); }
-  100% { opacity: 0; transform: scale(1.35) rotate(14deg); }
-}
-
-/* 12 · 웨딩 브랜딩 스튜디오 — 청첩장에 묶인 리본이 스르륵 풀리며 열리는 느낌 */
-.tooltip-card.fx-ribbon-untie {
-  background: linear-gradient(135deg, #f5d0c5, #d4af7a);
-  color: #4a3728;
-}
-
-.tooltip-card.fx-ribbon-untie::before,
-.tooltip-card.fx-ribbon-untie::after {
-  content: "";
-  position: absolute;
-  top: 7px;
-  left: 50%;
-  width: 3px;
-  height: 14px;
-  border-radius: 2px;
-  background: #fff;
-  transform-origin: top center;
-  opacity: 0;
-  animation-fill-mode: forwards;
-  animation-duration: 0.55s;
-  animation-timing-function: ease-out;
-}
-
-.tooltip-card.fx-ribbon-untie::before {
-  margin-left: -4px;
-  animation-name: tt-ribbon-left;
-}
-
-.tooltip-card.fx-ribbon-untie::after {
-  margin-left: 1px;
-  animation-name: tt-ribbon-right;
-}
-
-@keyframes tt-ribbon-left {
-  0% { opacity: 0; transform: rotate(0deg); }
-  35% { opacity: 1; transform: rotate(0deg); }
-  100% { opacity: 0.95; transform: rotate(-38deg); }
-}
-
-@keyframes tt-ribbon-right {
-  0% { opacity: 0; transform: rotate(0deg); }
-  35% { opacity: 1; transform: rotate(0deg); }
-  100% { opacity: 0.95; transform: rotate(38deg); }
-}
-
-/* effect를 지정하지 않은 작업을 위한 최소 기본값 */
-.tooltip-card.fx-default {
-  background: var(--tooltip-bg);
-  animation: tt-default-fade 0.25s ease;
-}
-
-@keyframes tt-default-fade {
-  0% { transform: scale(0.94); }
-  100% { transform: scale(1); }
+@keyframes work-desc-type {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tooltip-card,
-  .tooltip-card::before,
-  .tooltip-card::after,
-  .tooltip-card .tooltip-date,
-  .tooltip-card .tooltip-desc,
   .logo-letter,
   .thumb {
     animation: none !important;
