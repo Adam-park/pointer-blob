@@ -96,7 +96,7 @@ export default function GuestbookForm({ works = null, fixedWorkId = null, onAdde
       <input
         type="text"
         name="company"
-        className="gb-hp"
+        className="hp-field"
         tabIndex={-1}
         autoComplete="off"
         aria-hidden="true"

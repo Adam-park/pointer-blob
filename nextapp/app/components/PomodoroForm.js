@@ -11,6 +11,7 @@ export default function PomodoroForm() {
     const form = e.target;
     const name = form.name.value;
     const email = form.email.value;
+    const company = form.company.value; // 허니팟
 
     setStatus("loading");
     setErrorMsg("");
@@ -19,7 +20,7 @@ export default function PomodoroForm() {
       const res = await fetch("/api/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email }),
+        body: JSON.stringify({ name, email, company }),
       });
       const data = await res.json();
 
@@ -54,6 +55,15 @@ export default function PomodoroForm() {
         <span>이메일</span>
         <input type="email" name="email" required placeholder="you@example.com" />
       </label>
+      {/* 허니팟: 화면에 안 보이고 봇만 채운다 */}
+      <input
+        type="text"
+        name="company"
+        className="hp-field"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+      />
       {status === "error" && (
         <p style={{ color: "#b3261e", fontSize: 13, margin: 0 }}>{errorMsg}</p>
       )}

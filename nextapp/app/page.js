@@ -1,5 +1,6 @@
 import Shelf from "./components/Shelf";
 import RecentGuestbook from "./components/RecentGuestbook";
+import { siteConfig } from "./lib/siteConfig";
 
 export default function HomePage() {
   return (
@@ -14,14 +15,16 @@ export default function HomePage() {
         </a>
         <div className="cta-meta">
           <div className="cta-info">
-            <a href="mailto:hello@example.com">hello@example.com</a>
-            <span>010-1234-5678</span>
-            <span>서울, 대한민국</span>
+            <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+            <span>{siteConfig.phone}</span>
+            <span>{siteConfig.location}</span>
           </div>
           <div className="cta-social">
-            <a href="#">Instagram</a>
-            <a href="#">Brunch</a>
-            <a href="#">LinkedIn</a>
+            {siteConfig.social.map((s) => (
+              <a key={s.label} href={s.href}>
+                {s.label}
+              </a>
+            ))}
           </div>
         </div>
       </section>

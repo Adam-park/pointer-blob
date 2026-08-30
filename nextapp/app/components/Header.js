@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 export default function Header() {
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const logoHref = isHome ? "/pomodoro" : "/";
+  const logoTargetHref = isHome ? "/pomodoro" : "/";
   const [dialVisible, setDialVisible] = useState(true);
   const [shaking, setShaking] = useState(false);
   const dialRef = useRef(null);
@@ -53,7 +53,7 @@ export default function Header() {
             />
           )}
           <Link
-            href={logoHref}
+            href={logoTargetHref}
             className={`logo-badge logo-badge--sm${shaking ? " shake" : ""}`}
             aria-label={isHome ? "뽀모도로 타이머 체험 신청" : "박무드"}
           >

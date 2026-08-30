@@ -1,38 +1,47 @@
 import { Resend } from "resend";
+import { readJson, jsonError, clientIpHash, rateLimit } from "../../lib/http";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const CONTACT_TO = process.env.CONTACT_TO || "zmdkdkt@gmail.com";
 
 // 무료 체험 신청 폼이 제출되면, 신청자 정보를 담아 사이트 주인(박무드)에게 알림 메일을 보낸다.
 export async function POST(request) {
-  let body;
-  try {
-    body = await request.json();
-  } catch {
-    return Response.json({ error: "요청 형식이 올바르지 않아요." }, { status: 400 });
+  const body = await readJson(request);
+  if (!body) return jsonError("요청 형식이 올바르지 않아요.");
+
+  // 허니팟: 채워져 오면 봇 → 조용히 무시
+  if (typeof body.company === "string" && body.company.trim() !== "") {
+    return Response.json({ ok: true });
   }
 
-  const name = String(body.name || "").trim();
-  const email = String(body.email || "").trim();
+  const name = String(body.name || "").trim().replace(/\s+/g, " ").slice(0, 60);
+  const email = String(body.email || "").trim().slice(0, 200);
 
-  if (!email) {
-    return Response.json({ error: "이메일을 입력해주세요." }, { status: 400 });
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return jsonError("이메일을 정확히 입력해주세요.");
+  }
+
+  const ipHash = clientIpHash(request);
+  if (!rateLimit({ key: "send-email", ipHash, max: 3 })) {
+    return jsonError("신청이 너무 잦아요. 잠시 후 다시 시도해 주세요.", 429);
   }
 
   try {
     const { data, error } = await resend.emails.send({
       from: "박무드의 책상 <onboarding@resend.dev>",
-      to: "zmdkdkt@gmail.com",
+      to: CONTACT_TO,
       subject: `[뽀모도로 타이머 무료체험 신청] ${name || "이름 미입력"}`,
       html: renderEmailHtml({ name, email }),
     });
 
     if (error) {
-      return Response.json({ error: error.message || "메일 발송에 실패했어요." }, { status: 502 });
+      console.error("[send-email] resend error:", error);
+      return jsonError("메일 발송에 실패했어요.", 502);
     }
-
     return Response.json({ ok: true, id: data?.id });
   } catch (err) {
-    return Response.json({ error: err.message || "메일 발송 중 오류가 발생했어요." }, { status: 500 });
+    console.error("[send-email]", err);
+    return jsonError("메일 발송 중 오류가 발생했어요.", 500);
   }
 }
 

@@ -660,117 +660,6 @@ a { color: inherit; }
   color: var(--text-muted);
 }
 
-/* 작품 무드(item.mood)에 어울리는 날씨 연출 — 썸네일 위에 겹쳐서, 비는 위→아래로 낙하,
-   더위는 아래→위로 아지랑이처럼 흔들리며 상승한다. lib/weather.js의 moodEffectType이 켜고 끈다. */
-.weather-fx {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* 비 — "비가 내린다"류 문장을 세로쓰기로 세운 한 줄(=한 줄기)이 그대로 위→아래로 흘러내린다 */
-.weather-fx-rain-line {
-  position: absolute;
-  top: -10%;
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  color: rgba(255, 255, 255, 0.62);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-  opacity: 0;
-  animation-name: weather-fx-rain-fall;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-
-@keyframes weather-fx-rain-fall {
-  0%   { transform: translateY(-40px); opacity: 0; }
-  10%  { opacity: 0.75; }
-  80%  { opacity: 0.6; }
-  100% { transform: translateY(540px); opacity: 0; }
-}
-
-/* 흐림 — 가상의 안개 기상특보 문구를 격자로 촘촘히 채워 그리고(canvas), 각 글자 크기·투명도를
-   사인파로 흔들어 아스키아트 물결처럼 안개가 일렁이게 한다. 구현은 WeatherEffect.js의 CloudFog. */
-.weather-fx-cloud-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-/* 해 — 오른쪽 위 구석에 해가 고정되어 떠 있고(뜨고 지지 않음, 은은한 빛 맥동만), 그 주위로
-   문장 5개가 각자 다른 반지름의 동심원을 그리며 뱀처럼 굽이쳐 돈다. 문장마다 회전 방향이 달라
-   원들이 서로 엇갈려 움직인다. */
-.weather-fx-sun {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.weather-fx-sun-anchor {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  width: 0;
-  height: 0;
-}
-
-.weather-fx-sun-orb {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 26px;
-  height: 26px;
-  margin: -13px 0 0 -13px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #fff6d8, #ffd23f 55%, #ff9f1c 100%);
-  animation: weather-fx-sun-glow 3.5s ease-in-out infinite;
-}
-
-@keyframes weather-fx-sun-glow {
-  0%, 100% { box-shadow: 0 0 14px 4px rgba(255, 184, 76, 0.45); }
-  50%      { box-shadow: 0 0 22px 7px rgba(255, 184, 76, 0.65); }
-}
-
-.weather-fx-sun-ring {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 0;
-  height: 0;
-  animation-name: weather-fx-sun-ring-spin;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-
-.weather-fx-sun-ring-ccw {
-  animation-direction: reverse;
-}
-
-@keyframes weather-fx-sun-ring-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-.weather-fx-sun-char {
-  position: absolute;
-  left: 0;
-  top: 0;
-  font-size: 10px;
-  font-weight: 700;
-  white-space: nowrap;
-  color: rgba(255, 255, 255, 0.7);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-}
-
 .detail-body h1 {
   font-size: clamp(24px, 4vw, 34px);
   margin: 0 0 12px;
@@ -1104,8 +993,8 @@ a { color: inherit; }
   align-self: flex-start;
 }
 
-/* 허니팟 — 화면 밖으로 밀어 숨긴다 */
-.gb-hp {
+/* 허니팟 — 화면 밖으로 밀어 숨긴다 (봇만 채운다) */
+.hp-field {
   position: absolute;
   left: -9999px;
   width: 1px;

@@ -163,7 +163,8 @@ console.log("migration done");
 |---|---|
 | `app/lib/db.js` | `postgres` 커넥션(싱글턴). **서버 전용**. |
 | `app/lib/feedbackConfig.js` | 반응 allowlist·라벨, 메시지/닉네임 길이 상수 (서버·클라 공용, 비밀값 없음) |
-| `app/lib/feedbackValidate.js` | 입력 정리·검증 함수(닉네임/메시지/workId/reaction), IP 해시, 인메모리 레이트 리밋 |
+| `app/lib/feedbackValidate.js` | 입력 정리·검증 함수(닉네임/메시지/workId/reaction) |
+| `app/lib/http.js` | Route Handler 공통: 요청 JSON 파싱, 에러 응답, IP 해시, 인메모리 레이트 리밋 |
 | `app/api/guestbook/route.js` | `GET` 최신 목록 / `POST` 새 글 (검증 → INSERT) |
 | `app/api/reactions/route.js` | `GET?workId=` → 이벤트 조회 후 **백엔드 집계** / `POST` → 이벤트 1행 INSERT 후 집계 반환 |
 | `app/guestbook/page.js` | 방명록 페이지(서버 컴포넌트에서 `sql` 직접 조회) + `<GuestbookForm/>` |
@@ -283,7 +284,7 @@ export const dynamic = "force-dynamic"; // 항상 최신
 2. `nextapp/supabase/migration.sql` 작성 → SQL Editor 실행 (표 2 + 인덱스 + RLS off. 함수·트리거·default 없음)
 3. `.env.local` 2개 값(`DATABASE_URL`, `GUESTBOOK_IP_SALT`) + `.env.example` 추가
 4. `npm i postgres`
-5. `app/lib/db.js`, `app/lib/feedbackConfig.js`, `app/lib/feedbackValidate.js`
+5. `app/lib/db.js`, `app/lib/http.js`, `app/lib/feedbackConfig.js`, `app/lib/feedbackValidate.js`
 6. `app/api/guestbook/route.js` (GET/POST + 검증 + 레이트 리밋 + ipHash)
 7. `app/api/reactions/route.js` (GET/POST — 이벤트 INSERT + 백엔드 집계)
 8. `app/components/WorkReactions.js` → `app/work/[id]/page.js` 연결(SSR 초기 카운트)

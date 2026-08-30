@@ -1,5 +1,4 @@
 import "server-only";
-import { createHash } from "node:crypto";
 import {
   REACTIONS,
   NICKNAME_MAX,
@@ -7,7 +6,8 @@ import {
   WORKS_COUNT,
 } from "./feedbackConfig";
 
-// ── 입력 정리 ───────────────────────────────────────────────
+// 방명록·반응 입력 정리/검증. (IP 해시·레이트 리밋은 lib/http.js)
+
 // 제어문자(코드 < 32, 또는 127) 제거 후, 모든 공백을 한 칸으로 접고 양끝 trim
 function stripControl(s) {
   let out = "";
@@ -41,34 +41,4 @@ export function normalizeWorkId(raw) {
 
 export function isReaction(raw) {
   return typeof raw === "string" && REACTIONS.includes(raw);
-}
-
-// ── IP 해시 (원본 IP 는 저장/로그하지 않는다) ───────────────
-export function clientIp(req) {
-  const xff = req.headers.get("x-forwarded-for") || "";
-  return xff.split(",")[0].trim() || "unknown";
-}
-
-export function hashIp(req) {
-  const salt = process.env.GUESTBOOK_IP_SALT || "";
-  return createHash("sha256")
-    .update(clientIp(req) + salt)
-    .digest("hex");
-}
-
-// ── 레이트 리밋 (인메모리, 서버 인스턴스별 / 재시작 시 초기화) ─
-const hits = new Map(); // ipHash -> number[] (ms timestamps)
-const WINDOW_MS = 60_000;
-const MAX_IN_WINDOW = 5;
-
-export function allowRequest(ipHash) {
-  const now = Date.now();
-  const recent = (hits.get(ipHash) || []).filter((t) => now - t < WINDOW_MS);
-  if (recent.length >= MAX_IN_WINDOW) {
-    hits.set(ipHash, recent);
-    return false;
-  }
-  recent.push(now);
-  hits.set(ipHash, recent);
-  return true;
 }

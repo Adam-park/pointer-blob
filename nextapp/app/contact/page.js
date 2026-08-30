@@ -1,4 +1,5 @@
 import ContactForm from "../components/ContactForm";
+import { siteConfig } from "../lib/siteConfig";
 
 export const metadata = { title: "Contact — 박무드" };
 
@@ -14,22 +15,24 @@ export default function ContactPage() {
         <div className="contact-info">
           <div className="info-row">
             <span className="info-label">Email</span>
-            <a href="mailto:hello@example.com">hello@example.com</a>
+            <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
           </div>
           <div className="info-row">
             <span className="info-label">Phone</span>
-            <span>010-1234-5678</span>
+            <span>{siteConfig.phone}</span>
           </div>
           <div className="info-row">
             <span className="info-label">Location</span>
-            <span>서울, 대한민국 · 원격 협업 가능</span>
+            <span>{siteConfig.location} · 원격 협업 가능</span>
           </div>
           <div className="info-row">
             <span className="info-label">Social</span>
             <div className="social-links">
-              <a href="#">Instagram</a>
-              <a href="#">Brunch</a>
-              <a href="#">LinkedIn</a>
+              {siteConfig.social.map((s) => (
+                <a key={s.label} href={s.href}>
+                  {s.label}
+                </a>
+              ))}
             </div>
           </div>
         </div>
