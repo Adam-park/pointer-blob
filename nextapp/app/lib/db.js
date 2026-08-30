@@ -18,7 +18,8 @@ export function getSql() {
   }
 
   g.__appSql = postgres(url, {
-    prepare: false, // Supabase 트랜잭션 풀러(pgbouncer)는 prepared statement 미지원
+    ssl: "require", // Supabase 는 SSL 필수
+    prepare: false, // Supabase 풀러(pgbouncer) 호환
     max: 1, // 서버리스: 인스턴스당 커넥션 1개
     idle_timeout: 20,
   });
