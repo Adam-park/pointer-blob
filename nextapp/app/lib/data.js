@@ -11,7 +11,6 @@ export const works = [
   { title: "글이 되는 순간, 세 단계",     cat: "column",    date: "2025.08", desc: "글쓰기 3단계",                  effect: "onboarding-dots",      size: "portrait",  color: "sky",      mood: "선선한 아침" },
   { title: "목소리로 남기는 기록",        cat: "reading",   date: "2025.06", desc: "라디오 낭독극 대본 · 8분",        effect: "doc-static",           size: "wide",      color: "charcoal", mood: "고요한 밤" },
   { title: "튀어오르는 고양이",           cat: "fiction",   date: "2025.05", desc: "掌篇 6편 모음",                  effect: "character-jelly",      size: "portrait",  color: "teal",     mood: "화창한 오후" },
-  { title: "일기를 그래프로 그리면",       cat: "essay",     date: "2025.03", desc: "자기기록 · 연재",                effect: "stock-chart",          size: "landscape", color: "navy",     mood: "흐린 날" },
   { title: "제목을 스무 번 바꿨다",       cat: "column",    date: "2025.02", desc: "퇴고 일지",                     effect: "color-swatch",         size: "square",    color: "mustard",  mood: "비 오는 밤" },
   { title: "마침표를 찍었다",             cat: "essay",     date: "2024.12", desc: "탈고",                         effect: "payment-success",      size: "tall",      color: "plum",     mood: "맑게 갠 아침" },
   { title: "다채로운 목소리들",           cat: "reading",   date: "2024.10", desc: "목소리 앤솔로지 · 12분",          effect: "mv-rainbow-bounce",    size: "wide",      color: "rose",     mood: "바람 부는 날" },

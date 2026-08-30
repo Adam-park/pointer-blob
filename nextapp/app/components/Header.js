@@ -67,6 +67,9 @@ export default function Header() {
           <Link href="/about" className={pathname === "/about" ? "is-active" : ""} aria-current={pathname === "/about" ? "page" : undefined}>
             About
           </Link>
+          <Link href="/guestbook" className={pathname === "/guestbook" ? "is-active" : ""} aria-current={pathname === "/guestbook" ? "page" : undefined}>
+            Guestbook
+          </Link>
           <Link href="/contact" className={pathname === "/contact" ? "is-active" : ""} aria-current={pathname === "/contact" ? "page" : undefined}>
             Contact
           </Link>

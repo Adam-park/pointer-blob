@@ -1,9 +1,12 @@
 import Shelf from "./components/Shelf";
+import RecentGuestbook from "./components/RecentGuestbook";
 
 export default function HomePage() {
   return (
     <>
       <Shelf />
+
+      <RecentGuestbook />
 
       <section className="cta-section">
         <a href="/contact" className="cta-title">

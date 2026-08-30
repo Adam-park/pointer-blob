@@ -3,13 +3,13 @@
 // 서재 캐러셀을 넘길 때는 얇은 종이 한 장 스치는 소리(playPaperTurn),
 // 포트폴리오를 눌러 상세페이지로 들어갈 때는 책장을 한 장 넘기는 소리(playBookPageTurn)를 재생한다.
 //
-// 실제 파일로 바꾸려면: 아래 SOUND_FILES 경로에 맞춰
-//   nextapp/public/sounds/paper-turn.mp3
-//   nextapp/public/sounds/book-page-turn.mp3
-// 로 파일을 저장해두기만 하면 코드 수정 없이 그 파일이 재생된다.
+// 실제 파일은 nextapp/public/sounds/ 안에 두고, 아래 SOUND_FILES 경로를 그 파일명에 맞춘다.
+// 파일이 없거나 로드에 실패하면 아래 합성음(...Synth)으로 자동 전환된다.
 const SOUND_FILES = {
-  paperTurn: "/sounds/paper-turn.mp3",
-  bookPageTurn: "/sounds/book-page-turn.mp3",
+  // 서재 캐러셀 양옆 화살표(이전/다음)
+  paperTurn: "/sounds/mixkit-page-turn-single-1104.wav",
+  // 포트폴리오 카드 클릭 → 상세페이지 진입
+  bookPageTurn: "/sounds/mixkit-paper-slide-1530.wav",
 };
 
 let audioCtx = null;
